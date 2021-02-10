@@ -206,16 +206,15 @@ def create_model():
     tf.compat.v1.reset_default_graph()
     model=Sequential()
     model.add(Embedding(voc_size,embedvec_size,input_length=sent_length))
-    model.add(SpatialDropout1D(0.1))
+    model.add(SpatialDropout1D(dropout_rate))
     lstm_sizes=[lstm1_size, lstm2_size, lstm3_size]
     for i in range(lstm_layers):
         size = lstm_sizes[i]
         if args.bi_dir:
-            model.add(Bidirectional(LSTM(size, dropout=dropout_rate, 
-                      recurrent_dropout=0.2, return_sequences=True)))
+            model.add(Bidirectional(LSTM(size)))
         else:
-            model.add(LSTM(size, dropout=dropout_rate, recurrent_dropout=0.2,
-                           return_sequences=True))
+            model.add(LSTM(size))
+        model.add(Dropout(dropout_rate))
     model.add(Flatten())
     model.add(Dense(32, activation='relu'))
     model.add(Dropout(dropout_rate))
@@ -308,7 +307,7 @@ with tf.device('/device:GPU:2'):
                 model.compile(loss='binary_crossentropy', optimizer='adam')
                 # Fit the model
                 history = model.fit(X_final[train],y_final[train],
-                          epochs=10,batch_size=64, verbose=0)
+                          epochs=5,batch_size=64, verbose=0)
                 # evaluate the model
                 '''loss, accuracy, f1, precision, recall = \
                       model.evaluate(X_final[test], 
