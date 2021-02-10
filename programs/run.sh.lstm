@@ -1,0 +1,6 @@
+python one_hot_BiLSTM_for_博竣.py -vs 500 -ll 1 > lstm500.txt
+python one_hot_BiLSTM_for_博竣.py -vs 1000 -ll 1 > lstm1000.txt
+python one_hot_BiLSTM_for_博竣.py -vs 1500 -ll 1 > lstm1500.txt
+python one_hot_BiLSTM_for_博竣.py -vs 500 -sl 150 -ll 1 > lstm500_150.txt
+python one_hot_BiLSTM_for_博竣.py -vs 1000 -sl 150 -ll 1 > lstm1000_150.txt
+python one_hot_BiLSTM_for_博竣.py -vs 1500 -sl 150 -ll 1 > lstm1500_150.txt
