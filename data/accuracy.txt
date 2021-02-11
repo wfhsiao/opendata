@@ -1,0 +1,27 @@
+Tester:     weka.experiment.PairedCorrectedTTester -G 4,5,6 -D 1 -R 2 -S 0.05 -V -result-matrix "weka.experiment.ResultMatrixPlainText -mean-prec 2 -stddev-prec 2 -col-name-width 0 -row-name-width 25 -mean-width 0 -stddev-width 0 -sig-width 0 -count-width 5 -show-stddev -print-col-names -print-row-names -enum-col-names"
+Analysing:  Percent_correct
+Datasets:   2
+Resultsets: 5
+Confidence: 0.05 (two tailed)
+Sorted by:  -
+Date:       2021/1/12 上午 12:24
+
+
+Dataset                   (1) meta.FilteredC | (2) meta.Filter (3) meta.Filter (4) meta.Filter (5) meta.Filter
+--------------------------------------------------------------------------------------------------------------
+cofacts-2-categories_abov (50)   77.83(1.45) |   76.06(1.71)     69.23(1.51) *   75.67(1.62) *   79.53(0.74) v
+cofacts-2-categories      (50)   77.23(1.46) |   77.30(1.16)     70.47(1.76) *   74.45(1.56) *   77.86(0.91)  
+--------------------------------------------------------------------------------------------------------------
+                                     (v/ /*) |         (0/2/0)         (0/0/2)         (0/0/2)         (1/1/0)
+
+
+Key:
+(1) meta.FilteredClassifier '-F \"unsupervised.attribute.StringToWordVector -R first-last -W 1000 -prune-rate -1.0 -C -N 1 -L -stemmer weka.core.stemmers.NullStemmer -stopwords-handler weka.core.stopwords.Null -M 2 -tokenizer \\\"weka.core.tokenizers.WordTokenizer -delimiters \\\\\\\" \\\\\\\\r\\\\\\\\n\\\\\\\\t.,;:\\\\\\\\\\\\\\\'\\\\\\\\\\\\\\\"()?!\\\\\\\"\\\"\" -S 1 -W trees.J48 -- -C 0.25 -M 2' -4523450618538717200
+(2) meta.FilteredClassifier '-F \"unsupervised.attribute.StringToWordVector -R first-last -W 1000 -prune-rate -1.0 -C -N 1 -L -stemmer weka.core.stemmers.NullStemmer -stopwords-handler weka.core.stopwords.Null -M 2 -tokenizer \\\"weka.core.tokenizers.WordTokenizer -delimiters \\\\\\\" \\\\\\\\r\\\\\\\\n\\\\\\\\t.,;:\\\\\\\\\\\\\\\'\\\\\\\\\\\\\\\"()?!\\\\\\\"\\\"\" -S 1 -W bayes.NaiveBayesMultinomial' -4523450618538717200
+(3) meta.FilteredClassifier '-F \"unsupervised.attribute.StringToWordVector -R first-last -W 1000 -prune-rate -1.0 -C -N 1 -L -stemmer weka.core.stemmers.NullStemmer -stopwords-handler weka.core.stopwords.Null -M 2 -tokenizer \\\"weka.core.tokenizers.WordTokenizer -delimiters \\\\\\\" \\\\\\\\r\\\\\\\\n\\\\\\\\t.,;:\\\\\\\\\\\\\\\'\\\\\\\\\\\\\\\"()?!\\\\\\\"\\\"\" -S 1 -W functions.Logistic -- -R 1.0E-8 -M -1 -num-decimal-places 4' -4523450618538717200
+(4) meta.FilteredClassifier '-F \"unsupervised.attribute.StringToWordVector -R first-last -W 1000 -prune-rate -1.0 -C -N 1 -L -stemmer weka.core.stemmers.NullStemmer -stopwords-handler weka.core.stopwords.Null -M 2 -tokenizer \\\"weka.core.tokenizers.WordTokenizer -delimiters \\\\\\\" \\\\\\\\r\\\\\\\\n\\\\\\\\t.,;:\\\\\\\\\\\\\\\'\\\\\\\\\\\\\\\"()?!\\\\\\\"\\\"\" -S 1 -W trees.RandomTree -- -K 0 -M 1.0 -V 0.001 -S 1' -4523450618538717200
+(5) meta.FilteredClassifier '-F \"unsupervised.attribute.StringToWordVector -R first-last -W 1000 -prune-rate -1.0 -C -N 1 -L -stemmer weka.core.stemmers.NullStemmer -stopwords-handler weka.core.stopwords.Null -M 2 -tokenizer \\\"weka.core.tokenizers.WordTokenizer -delimiters \\\\\\\" \\\\\\\\r\\\\\\\\n\\\\\\\\t.,;:\\\\\\\\\\\\\\\'\\\\\\\\\\\\\\\"()?!\\\\\\\"\\\"\" -S 1 -W lazy.IBk -- -K 3 -W 0 -A \"weka.core.neighboursearch.LinearNNSearch -A \\\"weka.core.EuclideanDistance -R first-last\\\"\"' -4523450618538717200
+
+正確率比較
+上面的Key註明比較的5個方法依次如下：J48, NaiveBayesMultinomial, Logistic, RandomTree, IBK (K=3)
+怕你看不懂因此加註於此。看來KNN表現最好，其次是J48，接著是NaiveBayesMultinomial

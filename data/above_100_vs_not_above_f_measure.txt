@@ -1,0 +1,25 @@
+Tester:     weka.experiment.PairedCorrectedTTester -G 1 -D 4,5,6 -R 2 -S 0.05 -V -result-matrix "weka.experiment.ResultMatrixPlainText -mean-prec 2 -stddev-prec 2 -col-name-width 0 -row-name-width 25 -mean-width 2 -stddev-width 2 -sig-width 1 -count-width 5 -show-stddev -print-col-names -print-row-names -enum-col-names"
+Analysing:  F_measure
+Datasets:   5
+Resultsets: 2
+Confidence: 0.05 (two tailed)
+Sorted by:  -
+Date:       2021/1/12 上午 12:27
+
+
+Dataset                   (1) cofacts-2-cat | (2) cofacts-2-
+------------------------------------------------------------
+meta.FilteredClassifier ' (50)   0.87(0.01) |   0.86(0.01)  
+meta.FilteredClassifier ' (50)   0.84(0.01) |   0.85(0.01)  
+meta.FilteredClassifier ' (50)   0.80(0.01) |   0.80(0.01)  
+meta.FilteredClassifier ' (50)   0.85(0.01) |   0.84(0.01)  
+meta.FilteredClassifier ' (50)   0.88(0.00) |   0.87(0.01) *
+------------------------------------------------------------
+                                    (v/ /*) |        (0/4/1)
+
+
+Key:
+(1) cofacts-2-categories_above100
+(2) cofacts-2-categories
+
+上面的Key註明比較的2個資料集方法依次如下：(1)只留字元數大於等於100的資料2690及673筆; (2)過濾前3094及892筆資料。看來(1)的表現整體優於(2)。
