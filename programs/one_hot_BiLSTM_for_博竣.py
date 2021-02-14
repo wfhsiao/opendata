@@ -13,6 +13,13 @@ parser.add_argument("-ll", "--lstm_layers", help="the number of LSTM layers, def
 parser.add_argument("-l1s", "--lstm1_size", help="the number of neurons for the first LSTM layer, default=100", default=100, type=int)
 parser.add_argument("-l2s", "--lstm2_size", help="the number of neurons for the second LSTM layer, default=64", default=64, type=int)
 parser.add_argument("-l3s", "--lstm3_size", help="the number of neurons for the third LSTM layer, default=32", default=32, type=int)
+parser.add_argument("-bs", "--batch_size", help="the batch_size, default=64", default=64, type=int)
+parser.add_argument("-cl", "--cnn_layers", help="the number of CNN layers, default=1", default=1, type=int)
+parser.add_argument("-c1s", "--cnn1_size", help="the number of neurons for the first CNN layer, default=32", default=32, type=int)
+parser.add_argument("-c2s", "--cnn2_size", help="the number of neurons for the second CNN layer, default=16", default=16, type=int)
+parser.add_argument("-c3s", "--cnn3_size", help="the number of neurons for the third CNN layer, default=8", default=8, type=int)
+parser.add_argument("-ks", "--kernel_size", help="the kernel size for every CNN layer, default=3", default=3, type=int)
+
 args = parser.parse_args()
 voc_size=args.voc_size
 sent_length=args.sent_length
@@ -23,7 +30,12 @@ lstm_layers = args.lstm_layers
 lstm1_size=args.lstm1_size
 lstm2_size=args.lstm2_size
 lstm3_size=args.lstm3_size
-
+batch_size=args.batch_size
+cnn_layers = args.cnn_layers    
+cnn1_size=args.cnn1_size
+cnn2_size=args.cnn2_size
+cnn3_size=args.cnn3_size
+kernel_size=args.kernel_size
 # output the parameters
 print(f'voc_size: {voc_size}')
 print(f'sent_length: {sent_length}')
@@ -34,7 +46,12 @@ print(f'lstm_layers : {lstm_layers }')
 _sizes=[lstm1_size, lstm2_size, lstm3_size]
 for i in range(lstm_layers):
     print(f'the size for {i+1} layer: {_sizes[i]}')
-
+print(f'batch_size : {batch_size }')
+print(f'cnn_layers : {cnn_layers }')
+_sizes=[cnn1_size, cnn2_size, cnn3_size]
+for i in range(cnn_layers):
+    print(f'the size for {i+1} layer: {_sizes[i]}')
+print(f'kernel_size: {kernel_size}')
 # #### [中文停用字詞(含標點符號)](https://raw.githubusercontent.com/wfhsiao/opendata/master/data/stopwords.txt)處理範例
 
 # In[1]:
@@ -127,14 +144,14 @@ from tensorflow.keras.layers import Embedding
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.preprocessing.text import one_hot
-from tensorflow.keras.layers import LSTM, Dense, Bidirectional
+from tensorflow.keras.layers import LSTM, Dense, Bidirectional, Conv1D, MaxPooling1D
 from tensorflow.keras.layers import Dropout, Flatten, SpatialDropout1D
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_recall_fscore_support as score
-
+from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 # In[11]:
 
@@ -190,46 +207,6 @@ embedded_docs=pad_sequences(onehot_repr,padding='pre',maxlen=sent_length)
 print("--- %s seconds elasped for one_hot encoding and padding ---" % (time.time() - last_time))
 last_time = time.time()
 
-# In[18]:
-
-
-#embedded_docs[0]
-
-
-# In[20]:
-
-
-# In[22]:
-#from keras.backend import clear_session
-
-def create_model():
-    tf.compat.v1.reset_default_graph()
-    model=Sequential()
-    model.add(Embedding(voc_size,embedvec_size,input_length=sent_length))
-    model.add(SpatialDropout1D(dropout_rate))
-    lstm_sizes=[lstm1_size, lstm2_size, lstm3_size]
-    for i in range(lstm_layers):
-        size = lstm_sizes[i]
-        if args.bi_dir:
-            model.add(Bidirectional(LSTM(size)))
-        else:
-            model.add(LSTM(size))
-        model.add(Dropout(dropout_rate))
-    model.add(Flatten())
-    model.add(Dense(32, activation='relu'))
-    model.add(Dropout(dropout_rate))
-    model.add(Dense(1,activation='sigmoid'))
-    return model
-
-
-# In[23]:
-
-
-'''model = create_model()
-model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
-model.summary()
-'''
-
 # In[24]:
 
 
@@ -269,6 +246,48 @@ print(X_final.shape,y_final.shape)
 # - [k-fold stratified cross validation model metrics for f1](https://stackoverflow.com/questions/52892099/how-can-i-use-k-fold-cross-validation-in-scikit-learn-to-get-precision-recall-pe)
 # - [check the tensorflow add-ons](https://stackoverflow.com/questions/64474463/custom-f1-score-metric-in-tensorflow)
 
+
+def create_model():
+    tf.compat.v1.reset_default_graph()
+    model=Sequential()
+    model.add(Embedding(
+       input_dim=voc_size, # e.g, 10 if you have 10 words in your vocabulary
+       output_dim=embedvec_size, # size of the embedded vectors
+       input_length=sent_length,
+    ))
+    cnn_sizes=[cnn1_size, cnn2_size, cnn3_size]
+    for i in range(cnn_layers):
+        size = cnn_sizes[i]
+        model.add(Conv1D(filters=size, kernel_size=kernel_size, padding='same', activation='relu'))
+        model.add(MaxPooling1D(pool_size=2))
+    model.add(SpatialDropout1D(dropout_rate))
+    lstm_sizes=[lstm1_size, lstm2_size, lstm3_size]
+    for i in range(lstm_layers):
+        size = lstm_sizes[i]
+        if lstm_layers != 1:
+            lstm_l=LSTM(size, return_sequences=True)
+        else:
+            lstm_l=LSTM(size)
+        if bi_dir:
+            model.add(Bidirectional(lstm_l))
+        else:
+            model.add(lstm_l)
+        model.add(Dropout(dropout_rate))
+    model.add(Flatten())
+    model.add(Dense(32, activation='relu'))
+    model.add(Dropout(dropout_rate))
+    model.add(Dense(1,activation='sigmoid'))
+    return model
+
+
+# In[23]:
+
+
+'''model = create_model()
+model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
+model.summary()
+'''
+
 # In[33]:
 
 
@@ -307,7 +326,9 @@ with tf.device('/device:GPU:2'):
                 model.compile(loss='binary_crossentropy', optimizer='adam')
                 # Fit the model
                 history = model.fit(X_final[train],y_final[train],
-                          epochs=5,batch_size=64, verbose=0)
+                          epochs=10,batch_size=batch_size, verbose=0,
+                          validation_split=0.1, callbacks=[EarlyStopping( \
+                        monitor='val_loss', patience=3, min_delta=0.0001)])
                 # evaluate the model
                 '''loss, accuracy, f1, precision, recall = \
                       model.evaluate(X_final[test], 

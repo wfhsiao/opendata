@@ -1,0 +1,67 @@
+voc_size: 3000
+sent_length: 250
+embedvec_size : 100
+bi_dir: False
+dropout_rate : 0.4
+lstm_layers : 2
+the size for 1 layer: 50
+the size for 2 layer: 25
+batch_size : 64
+cnn_layers : 0
+kernel_size: 3
+1276 ['[', ']', '!', '"', '#', '$', '%', '&', "'", '(']
+--- 0.752234697341919 seconds elasped for getting stopwords---
+1    2690
+0     673
+Name: replyType, dtype: int64
+--- 3.837614059448242 seconds elasped for getting cofacts_2---
+2.3.0
+--- 28.09472632408142 seconds elasped for jieba segmentation ---
+--- 0.5005834102630615 seconds elasped for one_hot encoding and padding ---
+3363 (3363,)
+(3363, 250) (3363,)
+[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU'), PhysicalDevice(name='/physical_device:GPU:1', device_type='GPU')]
+--- 0.08754324913024902 seconds elasped for others ---
+seed:0
+fold: 0 1 2 3 4 
+79.81% (+/- 1.21%)
+88.35% (+/- 0.76%)
+seed:1
+fold: 0 1 2 3 4 
+80.61% (+/- 0.77%)
+88.93% (+/- 0.46%)
+seed:2
+fold: 0 1 2 3 4 
+79.81% (+/- 0.44%)
+88.30% (+/- 0.28%)
+seed:3
+fold: 0 1 2 3 4 
+80.23% (+/- 0.51%)
+88.58% (+/- 0.24%)
+seed:4
+fold: 0 1 2 3 4 
+80.43% (+/- 0.80%)
+88.76% (+/- 0.46%)
+seed:5
+fold: 0 1 2 3 4 
+80.58% (+/- 0.38%)
+88.85% (+/- 0.25%)
+seed:6
+fold: 0 1 2 3 4 
+80.26% (+/- 0.52%)
+88.68% (+/- 0.27%)
+seed:7
+fold: 0 1 2 3 4 
+79.27% (+/- 0.44%)
+88.04% (+/- 0.26%)
+seed:8
+fold: 0 1 2 3 4 
+79.90% (+/- 0.56%)
+88.47% (+/- 0.37%)
+seed:9
+fold: 0 1 2 3 4 
+80.55% (+/- 0.63%)
+88.84% (+/- 0.32%)
+80.14554588551617 0.7867526817825863
+88.57846593808766 0.4805709109590692
+--- 574.7831692695618 seconds elasped for the whole program ---

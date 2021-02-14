@@ -1,0 +1,8 @@
+#python one_hot_BiLSTM_for_博竣.py -vs 3072 -sl 256 -ll 2 -l1 32 -l2 16 -cl 3 -es 128 -bd True -dr 0.3 > cnn3bilstm3072sl256es128dr03l1_32_l2_16.txt
+#python one_hot_BiLSTM_for_博竣.py -vs 3000 -sl 250 -ll 2 -l1s 50 -l2s 25 -cl 1 -es 124 -bd True -dr 0.4 > cnnbilstm3000sl250es124dr04l1_50l2_25.txt
+#python one_hot_BiLSTM_for_博竣.py -vs 3000 -sl 250 -ll 2 -l1s 50 -l2s 25 -cl 1 -es 64 -bd True -dr 0.4 > cnnbilstm3000sl250es64dr04l1_50l2_25.txt
+python one_hot_BiLSTM_for_博竣.py -vs 3000 -sl 250 -ll 2 -l1s 50 -l2s 25 -es 100 -dr 0.3 > cnnlstm3000sl250es100dr03l1_50l2_25.txt
+python one_hot_BiLSTM_for_博竣.py -vs 2000 -sl 250 -ll 2 -l1s 50 -l2s 25 -es 128 -dr 0.4 > cnnlstm2000sl250es128dr04l1_50l2_25.txt
+python one_hot_BiLSTM_for_博竣.py -vs 3000 -sl 250 -cl 0 -ll 2 -l1s 50 -l2s 25 -es 100 -bd 1 -dr 0.4 > bilstm3000sl250es100dr04l1_50l2_25.txt
+#python one_hot_BiLSTM_for_博竣.py -vs 3072 -sl 256 -es 128 -dr 0.3 > emb3072sl256es128dr03.txt
+#python one_hot_BiLSTM_for_博竣.py -vs 2048 -sl 384 -es 128 -dr 0.3 > emb2048sl384es128dr03.txt
