@@ -1,20 +1,24 @@
+<pre>
 programs for helping classify RUMOR/NOT_RUMOR messages.
 
-The parameters are:
+The parameters need to be tweaked:
 cnn: 0, 1, 2, 3
 lstm: 0, 1, 2, 3
 vocabulary size: 1000, 2000, 3000
 maximum sentence length: 100, 200, 250, 300, 320
 embedding vector length: 64, 100, 128, 164, 192
 dropout rate: .1, .2, .3, .4, .5
+neuron number for
 lstm layer1
-layer2
-layer3
+lstm layer2
+lstm layer3
+neuron number for 
 cnn layer1
-layer2
-layer3
+cnn layer2
+cnn layer3
 
-<pre>
+After some trials I obtain the following network architecture which can beat traditional machine learning methods.
+
 Model: "sequential"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
