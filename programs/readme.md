@@ -39,4 +39,6 @@ Non-trainable params: 0
 
 五等份交叉驗證法重複執行十次(不同的亂數種子)，執行時間為828.74秒：
 --- 828.7377300262451 seconds elasped for the whole program ---
+
+詳細內容請查閱：good_cnnbilstm3000sl250es100dr04l1_50l2_25.txt
 </pre>
