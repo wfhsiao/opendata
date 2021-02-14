@@ -1,4 +1,19 @@
 programs for helping classify RUMOR/NOT_RUMOR messages.
+
+The parameters are:
+cnn: 0, 1, 2, 3
+lstm: 0, 1, 2, 3
+vocabulary size: 1000, 2000, 3000
+maximum sentence length: 100, 200, 250, 300, 320
+embedding vector length: 64, 100, 128, 164, 192
+dropout rate: .1, .2, .3, .4, .5
+lstm layer1
+layer2
+layer3
+cnn layer1
+layer2
+layer3
+
 <pre>
 Model: "sequential"
 _________________________________________________________________
